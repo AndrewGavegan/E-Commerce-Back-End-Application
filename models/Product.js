@@ -12,24 +12,24 @@ Product.init(
     // define columns // id, name, price, stock and category_id//
     id: {
       type: DataTypes.INTEGER,
-      allownull: false,
-      primarykey: true,
+      allowNull: false,
+      primaryKey: true,
       autoIncrement: true,
     },
     product_name: {
       type: DataTypes.STRING,
-      allownull: false,
+      allowNull: false,
     },
     price: {
       type: DataTypes.DECIMAL,
-      allownull: false,
+      allowNull: false,
       validate: {
         isDecimal: true,
       },
     },
     stock: {
       type: DataTypes.INTEGER,
-      allownull: false,
+      allowNull: false,
       defaultvalue: 10,
       validate: {
         isNumeric: true,

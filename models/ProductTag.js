@@ -9,8 +9,8 @@ ProductTag.init(
     // define columns // id, product_id and tag_id //
     id: {
       type: DataTypes.INTEGER,
-      allownull: false,
-      primarykey: true,
+      allowNull: false,
+      primaryKey: true,
       autoIncrement: true,
     },
     product_id: { 

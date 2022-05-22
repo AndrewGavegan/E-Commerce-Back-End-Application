@@ -9,8 +9,8 @@ Tag.init(
     // define columns // id and tag_name //
     id: {
       type: DataTypes.INTEGER,
-      allownull: false,
-      primarykey: true,
+      allowNull: false,
+      primaryKey: true,
       autoIncrement: true,
     },
     tag_name: {
