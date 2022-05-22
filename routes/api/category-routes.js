@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
   // find all categories // be sure to include its associated Products
   // will use a try catch statement //
   try {
-    const findCategories = await Catergory.findAll({
+    const findCategories = await Category.findAll({
       include: [{ model: Product }],
     })
     res.status(200).json(findCategories);
@@ -50,17 +50,14 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   // update a category by its `id` value // use a try catch statement //
   try {
-    const { id: category_id } = req.params;
-    const { category_name: updatedName } = req.body;
-    console.log(updatedName);
+    const { id } = req.params;
+    const { category_name } = req.body;
     const updatedCategory = await Category.update(
-      { categoryName: updatedName },
-      { where: { id: category_id },
-    }
-    )
-    res.status(200).send(`${updatedCategory} has been updated`)
+      { category_name },
+      { where: { id }})
+    res.status(200).json(`${updatedCategory} category has been updated`)
   } catch (err) {
-    res.status(500);
+    res.status(500).json(err);
   }
 });
 
@@ -74,7 +71,7 @@ router.delete('/:id', async (req, res) => {
       // deleting the category that has the matching id to the one that was entered into the parameter //
       where: { id: category_id }
     });
-    res.status(200).json(delCategory);
+    res.status(200).json(`${delCategory} category deleted`);
   } catch (err) {
     res.status(500);
   }

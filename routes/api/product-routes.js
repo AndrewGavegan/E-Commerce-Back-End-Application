@@ -25,15 +25,14 @@ router.get('/', async (req, res) => {
 // get one product
 router.get('/:id', async (req, res) => {
   // find a single product by its `id` // be sure to include its associated Category and Tag data //
-  const { id: product_id } = req.params;
+  
   try {
+    const { id } = req.params;
     const selectProduct = await Product.findByPk(
-      product_id,
-      { attributes: {exclude: "category_id"}},
+      id,
       { include: [
-        {model: Category, as: "category"},
-        {model: Tag, as: "product_tags", attributes: ["tag_name"],}
-      ]})
+        {model: Category },
+        {model: Tag }]})
       res.status(200).json(selectProduct);
   } catch (err) {
     res.status(500);
@@ -43,7 +42,7 @@ router.get('/:id', async (req, res) => {
 // create new product
 router.post('/', async (req, res) => {
   // refactoring create statement //
-  const { product_name, price, stock, tagIds, category_id } = req.body;
+  const { product_name, price, stock, tagId, category_id } = req.body;
   try {
   const product = await Product.create({
     product_name,
@@ -51,29 +50,25 @@ router.post('/', async (req, res) => {
     stock,
     category_id,
   });
-      if (tagIds.length) {
-        const productTagIdArr = req.body.tagIds.map((tag_id) => {
-          return {
-            product_id: product.id,
-            tag_id,
-          };
-        });
-        const productTags =  await ProductTag.bulkCreate(productTagIdArr);
-        res.status(200).json(productTags);
-      }
-      res.status(200).json(product);
-    } catch (err) {
+     const tagArray = tagId.map((tag_id) =>{
+       return {
+         product_id: product.id,
+         tag_id
+       }});
+        const productTags =  await ProductTag.bulkCreate(tagArray);
+        res.status(200).json(product);
+      } catch (err) {
       console.log(err)
     }
   });
 
 
 // update product
-router.put('/:id', async (req, res) => {
-  // update product data
+router.put('/:id', (req, res) => {
+  // update product data //
   Product.update(req.body, {
     where: {
-      id: req.params.id,
+      id: req.params,
     },
   })
     .then((product) => {
@@ -122,7 +117,7 @@ router.delete('/:id', async (req, res) => {
       res.send("No product to delete");
     }
     res.status(200);
-    res.json(delProduct);
+    res.json(`${delProduct} product deleted successfully`);
   } catch (err) {
     console.error(err);
     res.status(500);

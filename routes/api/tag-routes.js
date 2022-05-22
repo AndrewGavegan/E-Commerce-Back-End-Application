@@ -46,7 +46,7 @@ router.put('/:id', async (req, res) => {
     const newName = await Tag.update(req.body, { where: {id: tag_id}})
     console.log(`${newName} is the new tag name`)
     res.status(200);
-    res.send(`${tag_id} was the tag that was updated`);
+    res.send(`tag number ${tag_id} was updated`);
   }catch (err) {
     res.status(500);
   }
