@@ -46,7 +46,7 @@ router.put('/:id', async (req, res) => {
     const newName = await Tag.update(req.body, { where: {id: tag_id}})
     console.log(`${newName} is the new tag name`)
     res.status(200);
-    res.send(`tag number ${tag_id} was updated`);
+    res.json(`tag number ${tag_id} was updated`);
   }catch (err) {
     res.status(500);
   }
@@ -57,7 +57,7 @@ router.delete('/:id', async (req, res) => {
   try {
     const { id: tag_id } = req.params;
     const delTag = await Tag.destroy({ where: { id: tag_id}})
-    res.status(200).send(`tag ${tag_id} has been deleted`);
+    res.status(200).json(`tag ${tag_id} has been deleted`);
   }catch (err) {
     res.status(500).json(err);
   }
