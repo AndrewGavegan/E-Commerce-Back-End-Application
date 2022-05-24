@@ -1,11 +1,9 @@
 const router = require('express').Router();
 const { Product, Category, Tag, ProductTag } = require('../../models');
 
-// The `/api/products` endpoint
-
-// get all products
+// route for getting all products
 router.get('/', async (req, res) => {
-  // find all products // be sure to include its associated Category and Tag data
+ 
   try {
     const findProducts = await Product.findAll({
       // include takes an array of objects that you would have set up associations for in the models file //
@@ -22,10 +20,8 @@ router.get('/', async (req, res) => {
   }
 });
 
-// get one product
+// route for getting a specific product
 router.get('/:id', async (req, res) => {
-  // find a single product by its `id` // be sure to include its associated Category and Tag data //
-  
   try {
     const { id } = req.params;
     const selectProduct = await Product.findByPk(
@@ -39,10 +35,8 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// create new product
+// route for creating a new product
 router.post('/', async (req, res) => {
-  // refactoring create statement //
-  
   try {
   const { product_name, price, stock, category_id, tag_id } = req.body;
   const newProduct = await Product.create({
@@ -51,6 +45,7 @@ router.post('/', async (req, res) => {
     stock,
     category_id
   });
+  // using .map to create the new array of tag id's that each product is given through the body of the json //
       tagArray = tag_id.map((tagId) =>{
        return {
          product_id: newProduct.id,
@@ -106,23 +101,23 @@ router.put('/:id', (req, res) => {
     });
 });
 
+// route for deleting a product 
 router.delete('/:id', async (req, res) => {
-  // delete one product by its `id` value // copy format from category delete statement //
   try {
     const { id: product_id } = req.params;
+    // delete the product that has a matching id to the param //
     const delProduct = await Product.destroy({ 
       where: { id: product_id },
     });
     if (!delProduct) {
       res.status(404);
-      res.send("No product to delete");
+      res.json("No product to delete");
     }
     res.status(200);
     res.json(`${delProduct} product deleted successfully`);
   } catch (err) {
-    console.error(err);
     res.status(500);
-    res.send("")
+    res.json(err)
   }
 });
 

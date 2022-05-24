@@ -6,7 +6,7 @@ class ProductTag extends Model {}
 
 ProductTag.init(
   {
-    // define columns // id, product_id and tag_id //
+    // define columns // adding id, product_id and tag_id foreign keys for product tag //
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
