@@ -68,7 +68,7 @@ router.put('/:id', (req, res) => {
   // update product data //
   Product.update(req.body, {
     where: {
-      id: req.params,
+      id: req.params.id,
     },
   })
     .then((product) => {
@@ -98,7 +98,7 @@ router.put('/:id', (req, res) => {
         ProductTag.bulkCreate(newProductTags),
       ]);
     })
-    .then((updatedProductTags) => res.json(updatedProductTags))
+    .then(() => res.json(req.body.product_name + " is now updated."))
     .catch((err) => {
       // console.log(err);
       res.status(400).json(err);
