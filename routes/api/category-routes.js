@@ -21,10 +21,9 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   // find one category by its `id` value // be sure to include its associated Products
   const { id: category_id } = req.params;
-  console.log(category_id);
     // will use a try catch statement //
   try {
-    const selectCategory = await Category.findByPk(category_id);
+    const selectCategory = await Category.findByPk(category_id, { include: { model: Product}});
     res.status(200).json(selectCategory);
   } catch (err) {
     console.log(err);
@@ -65,7 +64,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   // delete a category by its `id` value // use a try catch statement //
   try {
-    // req.params is whatever is entered in the url parameter after the slash usually //
+    // req.params is whatever is entered in the url parameter after the forward slash //
     const { id: category_id } = req.params;
     const delCategory = await Category.destroy({
       // deleting the category that has the matching id to the one that was entered into the parameter //
