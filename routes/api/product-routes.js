@@ -42,23 +42,24 @@ router.get('/:id', async (req, res) => {
 // create new product
 router.post('/', async (req, res) => {
   // refactoring create statement //
-  const { product_name, price, stock, tagId, category_id } = req.body;
+  
   try {
-  const product = await Product.create({
+  const { product_name, price, stock, category_id, tag_id } = req.body;
+  const newProduct = await Product.create({
     product_name,
     price,
     stock,
-    category_id,
+    category_id
   });
-     const tagArray = tagId.map((tag_id) =>{
+      tagArray = tag_id.map((tagId) =>{
        return {
-         product_id: product.id,
-         tag_id
+         product_id: newProduct.id,
+         tagId
        }});
         const productTags =  await ProductTag.bulkCreate(tagArray);
-        res.status(200).json(product);
+        res.status(200).json(newProduct);
       } catch (err) {
-      console.log(err)
+      res.status(500).json(err);
     }
   });
 
