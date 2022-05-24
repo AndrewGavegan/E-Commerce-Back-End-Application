@@ -21,6 +21,8 @@ Back end functionality for a mock e-commerce website.
 ## Usage 
 
 
+https://user-images.githubusercontent.com/91113260/169976337-f170b8a5-aa41-4866-91cc-62c6a6fdb41e.mp4
+
 ---
 ## Credits 
 This was a solo project built from scratch with the guidance and templtes provided and learnt in Unit 12 of the full stack bootcamp at the University of Sydney.
